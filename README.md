@@ -16,4 +16,4 @@ This software comes with install and uninstall scripts.
  - Run `uninstall.sh` to uninstall
 
 ## Notice
-This software uses ufw, and will screw up your config. Do not use this software is you use ufw for anything else.
+This software uses ufw, and will screw up your config. Do not use this software if you use ufw for anything else.
