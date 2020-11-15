@@ -5,7 +5,7 @@ from gi.repository import Gtk
 
 
 class StackWindow(Gtk.Window):
-    
+
     def __init__(self):
         Gtk.Window.__init__(self, title ="Smother")
         self.set_border_width(10)
