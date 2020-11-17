@@ -1,8 +1,11 @@
 # Smother
-A simple gtk application for managing a VPN killswitch using ufw.
+A simple gtk application for managing an OpenVPN killswitch using ufw.
 
 ## Build Smother
-**Required:** `nuitka3`, `python3`, `gtk3` , `ufw`, `gksu`
+**Required:**
+ - **Build:** `python3`, `nuitka3`, `PyYAML`
+ 
+ - **Runtime:** `gtk3` , `ufw`, `gksu`
 
 ```sh
 git clone https://github.com/Corewala/Smother.git
