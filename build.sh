@@ -1,5 +1,5 @@
 mkdir build
-nuitka3 ./smother.py -o build/smother
+nuitka3 ./smother.py -o build/smother &> /dev/null
 echo '[Desktop Entry]
 Type=Application
 Name=Smother
