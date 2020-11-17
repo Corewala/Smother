@@ -11,7 +11,7 @@ sh build.sh
 ```
 
 ## Install or uninstall Smother
-Run `install.sh` to access installation options.
+Run `install.sh` after building, or run the latest self-extracting archive available [here](https://github.com/Corewala/Smother/releases/latest) to access installation options.
 
 ## Notice
 This software uses ufw, and will screw up your config. Do not use this software if you use ufw for anything else.
