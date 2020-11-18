@@ -24,17 +24,17 @@ class Smother(Gtk.Window):
         stack.set_transition_type(Gtk.StackTransitionType.SLIDE_LEFT_RIGHT)
         stack.set_transition_duration(1000)
 
-        self.killbutton = Gtk.Button(label ="Enable Killswitch")
+        self.killbutton = Gtk.Button(label = "Enable Killswitch")
         self.killbutton.connect("clicked", self.on_enable_clicked)
         stack.add_titled(self.killbutton, "kill", "Enable")
 
-        self.unkillbutton = Gtk.Button(label ="Disable Killswitch")
+        self.unkillbutton = Gtk.Button(label = "Disable Killswitch")
         self.unkillbutton.connect("clicked", self.on_disable_clicked)
         stack.add_titled(self.unkillbutton, "unkill", "Disable")
 
-        stack_switcher = Gtk.StackSwitcher()
-        stack_switcher.set_stack(stack)
-        box.pack_start(stack_switcher, True, True, 0)
+        switcher = Gtk.StackSwitcher()
+        switcher.set_stack(stack)
+        box.pack_start(switcher, True, True, 0)
         box.pack_start(stack, True, True, 0)
 
         if self.config["enabled"]:
@@ -45,18 +45,18 @@ class Smother(Gtk.Window):
             self.unkillbutton.set_sensitive(False)
 
     def on_enable_clicked(self, widget):
-        os.system("gksu bash -c \'/usr/bin/ufw default deny incoming \n /usr/bin/ufw default deny outgoing \n sudo ufw allow out on tun0 from any to any\'")
-        self.killbutton.set_sensitive(False)
-        self.unkillbutton.set_sensitive(True)
-        self.config["enabled"] = True
-        yaml.safe_dump(self.config, open(self.configPath, "r+"))
+        if not os.system("pkexec bash -c \'ufw default deny incoming \n ufw default deny outgoing \n ufw allow out on tun0 from any to any\'"):
+            self.killbutton.set_sensitive(False)
+            self.unkillbutton.set_sensitive(True)
+            self.config["enabled"] = True
+            yaml.safe_dump(self.config, open(self.configPath, "r+"))
 
     def on_disable_clicked(self, widget):
-        os.system("gksu bash -c \'/usr/bin/ufw --force reset \n /usr/bin/ufw enable \n /usr/bin/rm /etc/ufw/*.rules.* \n /usr/bin/ufw default deny incoming \n /usr/bin/ufw default allow outgoing\'")
-        self.killbutton.set_sensitive(True)
-        self.unkillbutton.set_sensitive(False)
-        self.config["enabled"] = False
-        yaml.safe_dump(self.config, open(self.configPath, "r+"))
+        if not os.system("pkexec bash -c \'ufw --force reset \n ufw enable \n rm /etc/ufw/*.rules.* \n ufw default deny incoming \n ufw default allow outgoing\'"):
+            self.killbutton.set_sensitive(True)
+            self.unkillbutton.set_sensitive(False)
+            self.config["enabled"] = False
+            yaml.safe_dump(self.config, open(self.configPath, "r+"))
 
 win = Smother()
 win.connect("destroy", Gtk.main_quit)
