@@ -61,8 +61,8 @@ class Smother(Gtk.Window):
         self.unkillbutton.set_sensitive(self.config["enabled"])
         self.port.set_value(self.config["port"])
         self.reconnectingswitch.set_state(self.config["reconnecting"])
-        self.port.set_sensitive(not self.config["reconnecting"])
-        self.applybutton.set_sensitive(not self.config["reconnecting"])
+        self.port.set_sensitive(self.reconnectingswitch.get_state())
+        self.applybutton.set_sensitive(self.reconnectingswitch.get_state())
 
     def on_reconnecting_changed(self, widget, state):
         self.config["reconnecting"] = not self.reconnectingswitch.get_state()
