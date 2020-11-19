@@ -56,7 +56,6 @@ class Smother(Gtk.Window):
         box.pack_start(stack, True, True, 0)
         box.pack_start(settings, True, True, 0)
         # restore settings from file
-        print(self.config["reconnecting"])
         self.killbutton.set_sensitive(not self.config["enabled"])
         self.unkillbutton.set_sensitive(self.config["enabled"])
         self.port.set_value(self.config["port"])
@@ -78,7 +77,7 @@ class Smother(Gtk.Window):
         if self.config["reconnecting"] and self.config["port"]:
             command = "pkexec bash -c \'ufw default deny incoming \n ufw default deny outgoing \n ufw allow out on tun0 from any to any \n ufw allow out " + str(int(self.config["port"])) + "/udp \n ufw allow in " + str(int(self.config["port"])) + "/udp \n ufw allow out 53 \n ufw allow in 53\'"
         else:
-            command = "pkexec bash -c \'ufw default deny incoming \n ufw default deny outgoing \n ufw allow out on tun0 from any to any"
+            command = "pkexec bash -c \'ufw default deny incoming \n ufw default deny outgoing \n ufw allow out on tun0 from any to any\'"
 
         if not os.system(command):
             self.killbutton.set_sensitive(False)
