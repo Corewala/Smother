@@ -1,3 +1,4 @@
+![icon](smother.svg)
 # Smother
 A simple gtk application for managing an OpenVPN killswitch using ufw.
 
