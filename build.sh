@@ -5,6 +5,6 @@ Type=Application
 Name=Smother
 Exec=smother
 Terminal=false
-Icon=password
+Icon=smother
 Categories=GNOME;Network;
 StartupNotify=false' > build/Smother.desktop

@@ -1,4 +1,5 @@
-![icon](smother.svg)
+![](smother.svg)
+
 # Smother
 A simple gtk application for managing an OpenVPN killswitch using ufw.
 
@@ -19,3 +20,6 @@ Run `install.sh` after building, or run the latest self-extracting archive avail
 
 ## Notice
 This software uses ufw, and will screw up your config. Do not use this software if you use ufw for anything else.
+
+## Credits
+"[Mask](https://thenounproject.com/ayub12/collection/jumpicon-pest-control-glyph/?i=2278085)" icon by Ayub Irawan from the [Noun Project](https://thenounproject.com/).

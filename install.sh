@@ -23,6 +23,7 @@ case $selection in
 	sudo ufw enable &> /dev/null
 	cp build/smother ~/.local/bin
 	cp build/Smother.desktop ~/.local/share/applications
+	cp smother.svg ~/.icons
     ;;
 
     2)
@@ -34,6 +35,7 @@ case $selection in
 	sudo /usr/bin/ufw default allow outgoing &> /dev/null
 	rm ~/.local/bin/smother
 	rm ~/.local/share/applications/Smother.desktop
+	rm /.icons/smother.svg
     ;;
     
     *)
