@@ -1,4 +1,4 @@
-![](smother.svg)
+<img width="180" align="center" src="https://raw.githubusercontent.com/Corewala/Smother/c4b2f5b87048a58b6f9fa70552a331d8a71ce6f4/smother.svg" />
 
 # Smother
 A simple gtk application for managing an OpenVPN killswitch using ufw.
