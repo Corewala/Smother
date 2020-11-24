@@ -21,6 +21,9 @@ case $selection in
     1)
 	sudo systemctl enable ufw &> /dev/null
 	sudo ufw enable &> /dev/null
+	mkdir ~/.local/bin &> /dev/null
+	mkdir ~/.local/share/applications &> /dev/null
+	mkdir ~/.icons &> /dev/null
 	cp build/smother ~/.local/bin
 	cp build/Smother.desktop ~/.local/share/applications
 	cp smother.svg ~/.icons
