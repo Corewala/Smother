@@ -3,7 +3,7 @@ printf "1: Install or update Smother\n";
 printf "2: Uninstall Smother\n";
 printf "> ";
 
-#Repeat only if the user hasn't entered an integer...
+#Repeat only if the user hasn't entered an integer
 while ! [[ $selection =~ ^[1-2]+$ ]]; 
 do
     read selection;
@@ -19,14 +19,15 @@ done
 
 case $selection in
     1)
+    #Install
 	sudo systemctl enable ufw &> /dev/null
 	sudo ufw enable &> /dev/null
 	mkdir ~/.local/bin &> /dev/null
 	mkdir ~/.local/share/applications &> /dev/null
 	mkdir ~/.icons &> /dev/null
-	cp build/smother ~/.local/bin
-	cp build/Smother.desktop ~/.local/share/applications
-	cp smother.svg ~/.icons
+	cp smother.py ~/.local/bin/smother
+	cp Smother.desktop ~/.local/share/applications/Smother.desktop
+	cp smother.svg ~/.icons/smother.svg
     ;;
 
     2)

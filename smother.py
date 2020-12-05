@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import gi
 import os
 import yaml
