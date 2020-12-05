@@ -39,7 +39,7 @@ case $selection in
 	sudo /usr/bin/ufw default allow outgoing &> /dev/null
 	rm ~/.local/bin/smother
 	rm ~/.local/share/applications/Smother.desktop
-	rm /.icons/smother.svg
+	rm ~/.icons/smother.svg
     ;;
     
     *)
