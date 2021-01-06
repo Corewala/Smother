@@ -1,6 +1,9 @@
 <img width="180" src="https://raw.githubusercontent.com/Corewala/Smother/c4b2f5b87048a58b6f9fa70552a331d8a71ce6f4/smother.svg" />
 
 # Smother
+[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/powered-by-electricity.svg)](https://forthebadge.com)
+
 A simple gtk application for managing an OpenVPN killswitch using ufw.
 
 ## Build Smother

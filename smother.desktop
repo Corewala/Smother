@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Smother
+Exec=smother
+Terminal=false
+Icon=smother
+Categories=GNOME;Network;
+StartupNotify=false
