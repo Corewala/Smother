@@ -11,7 +11,7 @@ class Smother(Gtk.Window):
 
     def __init__(self):
         Gtk.Window.__init__(self, title ="Smother")
-        Gtk.Window.set_resizable(self, False);
+        Gtk.Window.set_resizable(self, False)
         self.set_border_width(10)
         box = Gtk.Box(orientation = Gtk.Orientation.VERTICAL, spacing = 20)
         self.add(box)
@@ -94,7 +94,7 @@ class Smother(Gtk.Window):
             self.unkillbutton.set_sensitive(True)
             self.config["enabled"] = True
             yaml.safe_dump(self.config, open(self.configPath, "r+"))
-            os.system("notify-send 'Smother' 'Killswitch disabled' -i smother")
+            os.system("notify-send 'Smother' 'Killswitch enabled' -i smother")
             Thread(target = self.status_check, args = ()).start()
             print("\33[92m" + "Killswitch enabled" + "\33[0m")
         elif commandstatus != 32256:
