@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python3 -W ignore::DeprecationWarning
 import gi
 import os
 import yaml
@@ -96,7 +96,7 @@ class Smother(Gtk.Window):
             yaml.safe_dump(self.config, open(self.configPath, "r+"))
             os.system("notify-send 'Smother' 'Killswitch disabled' -i smother")
             Thread(target = self.status_check, args = ()).start()
-            print("Killswitch enabled")
+            print("\33[92m" + "Killswitch enabled" + "\33[0m")
         elif commandstatus != 32256:
             self.killbutton.set_sensitive(True)
             os.system("notify-send 'Smother' 'Failed to enable killswitch' -u critical -i smother")
@@ -114,7 +114,7 @@ class Smother(Gtk.Window):
             self.config["enabled"] = False
             yaml.safe_dump(self.config, open(self.configPath, "r+"))
             os.system("notify-send 'Smother' 'Killswitch disabled' -i smother")
-            print("Killswitch disabled")
+            print("\33[92m" + "Killswitch disabled" + "\33[0m")
         elif commandstatus != 32256:
             self.unkillbutton.set_sensitive(True)
             os.system("notify-send 'Smother' 'Failed to disable killswitch' -u critical -i smother")
