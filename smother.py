@@ -77,12 +77,12 @@ class Smother(Gtk.Window):
         yaml.safe_dump(self.config, open(self.configPath, "r+"))
 
     def on_enable_clicked(self, widget):
-        print("Enabling killswitch")
+        print("\33[6m" + "Enabling killswitch" + "\33[0m")
         Thread(target = self.enable, args = ()).start()
 
     def on_disable_clicked(self, widget):
+        print("\33[6m" + "Disabling killswitch" + "\33[0m")
         Thread(target = self.disable, args = ()).start()
-        print("Disabling killswitch")
 
     def enable(self):
         self.killbutton.set_sensitive(False)
