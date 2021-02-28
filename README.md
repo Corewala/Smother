@@ -1,8 +1,10 @@
 <img width="180" src="https://raw.githubusercontent.com/Corewala/Smother/c4b2f5b87048a58b6f9fa70552a331d8a71ce6f4/smother.svg" />
 
 # Smother
-[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://github.com/Corewala/Smother)
-[![forthebadge](https://forthebadge.com/images/badges/it-works-why.svg)](https://github.com/Corewala/Smother)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://github.com/Corewala/Smother#smother)
+[![forthebadge](https://forthebadge.com/images/badges/it-works-why.svg)](https://github.com/Corewala/Smother#smother)
+
+[![shields](https://img.shields.io/badge/Download-Here-orange?style=for-the-badge&logo=github)](https://github.com/Corewala/Smother/releases/latest)
 
 A simple gtk application for managing an OpenVPN killswitch using ufw.
 
