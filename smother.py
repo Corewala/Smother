@@ -62,9 +62,16 @@ class Smother(Gtk.Window):
         self.killbutton.set_sensitive(not self.config["enabled"])
         self.unkillbutton.set_sensitive(self.config["enabled"])
         self.port.set_value(self.config["port"])
-        self.reconnectingswitch.set_state(self.config["reconnecting"])
+        self.settingsbox.set_sensitive(not self.config["enabled"])
+        if self.config["reconnecting"]:
+            # this is a bad workaround but it works
+            self.reconnectingswitch.set_state(True)
+            self.config["reconnecting"] = True
+            yaml.safe_dump(self.config, open(self.configPath, "r+"))
         self.port.set_sensitive(self.reconnectingswitch.get_state())
         self.applybutton.set_sensitive(self.reconnectingswitch.get_state())
+        if self.config["enabled"]:
+            Thread(target = self.status_check, args = ()).start()
 
     def on_reconnecting_changed(self, widget, state):
         self.config["reconnecting"] = not self.reconnectingswitch.get_state()
@@ -97,6 +104,7 @@ class Smother(Gtk.Window):
             yaml.safe_dump(self.config, open(self.configPath, "r+"))
             os.system("notify-send 'Smother' 'Killswitch enabled' -i smother")
             Thread(target = self.status_check, args = ()).start()
+            self.settingsbox.set_sensitive(False)
             print("\33[92m" + "Killswitch enabled" + "\33[0m")
         elif commandstatus != 32256:
             self.killbutton.set_sensitive(True)
@@ -115,6 +123,7 @@ class Smother(Gtk.Window):
             self.config["enabled"] = False
             yaml.safe_dump(self.config, open(self.configPath, "r+"))
             os.system("notify-send 'Smother' 'Killswitch disabled' -i smother")
+            self.settingsbox.set_sensitive(True)
             print("\33[92m" + "Killswitch disabled" + "\33[0m")
         elif commandstatus != 32256:
             self.unkillbutton.set_sensitive(True)
@@ -126,7 +135,8 @@ class Smother(Gtk.Window):
 
     def status_check(self):
         vpnstatus = True
-        while self.config["enabled"]:
+        time.sleep(2)
+        while self.config["enabled"] and win.get_window():
             if not os.system("nmcli device status | grep \"tun0\" &> /dev/null"):
                 vpnstatus = True
             else:
