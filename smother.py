@@ -1,9 +1,12 @@
 #!/usr/bin/python3 -W ignore::DeprecationWarning
+import ctypes
+x11 = ctypes.cdll.LoadLibrary('libX11.so')
+x11.XInitThreads()
+
 import gi
 import os
 import yaml
 import time
-import ctypes
 gi.require_version('Gtk', '3.0')
 from threading import Thread
 from gi.repository import Gtk
@@ -147,8 +150,6 @@ class Smother(Gtk.Window):
                 vpnstatus = False
             time.sleep(1)
 
-x11 = ctypes.cdll.LoadLibrary('libX11.so')
-x11.XInitThreads()
 win = Smother()
 win.connect("destroy", Gtk.main_quit)
 win.show_all()
