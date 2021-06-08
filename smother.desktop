@@ -4,5 +4,5 @@ Name=Smother
 Exec=smother
 Terminal=false
 Icon=smother
-Categories=GNOME;Network;
+Categories=Network;
 StartupNotify=false
