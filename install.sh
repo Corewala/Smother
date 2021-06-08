@@ -11,11 +11,11 @@ fi
 printf "2: Uninstall Smother\n";
 printf "> ";
 
-#Repeat only if the user hasn't entered an integer
+# repeat only if the user hasn't entered an integer 1-2
 while ! [[ $selection =~ ^[1-2]+$ ]];
 do
     read selection;
-    #if the entered value was not an integer, show this
+    # if the entered value was not one of the desired values, show this
     if ! [[ $selection =~ ^[1-2]+$ ]]; then
         sleep 1;
         printf "$(tput setaf 9)Please try again$(tput sgr0)\n";
@@ -31,7 +31,7 @@ done
 
 case $selection in
     1)
-    #Install
+    # install
 	sudo systemctl enable ufw &> /dev/null
 	sudo ufw enable &> /dev/null
 	rm ~/.local/bin/smother &> /dev/null
@@ -50,7 +50,7 @@ case $selection in
     ;;
 
     2)
-    #Uninstall
+    # uninstall
 	sudo /usr/bin/ufw --force reset &> /dev/null
 	sudo /usr/bin/ufw enable &> /dev/null
 	sudo /usr/bin/rm /etc/ufw/*.rules.* &> /dev/null
