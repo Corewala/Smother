@@ -20,8 +20,5 @@ A simple gtk application for managing an OpenVPN killswitch using ufw.
 ## Install or uninstall Smother
 Run `install.sh` or use the latest self-extracting archive available [here](https://github.com/Corewala/Smother/releases/latest) to access installation options.
 
-## Notice
-This software uses ufw, and will screw up your config. Do not use this software if you use ufw for anything else.
-
 ## Credits
 "[Mask](https://thenounproject.com/ayub12/collection/jumpicon-pest-control-glyph/?i=2278085)" icon by Ayub Irawan from the [Noun Project](https://thenounproject.com/).
