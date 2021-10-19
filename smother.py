@@ -7,6 +7,7 @@ import gi
 import os
 import yaml
 import time
+import base64
 gi.require_version('Gtk', '3.0')
 from threading import Thread
 from gi.repository import Gtk
@@ -22,10 +23,10 @@ class Smother(Gtk.Window):
         # get config file and resolve missing arguments
         self.configPath = os.path.join(os.environ['HOME'], ".config/smother.yaml")
         if not os.path.exists(self.configPath):
-            os.system("echo \'enabled: false \nreconnecting: false \nport: 0\' > ~/.config/smother.yaml")
+            os.system("echo \'enabled: false \nreconnecting: false \nport: 0 \nbackup:\' > ~/.config/smother.yaml")
         self.config = yaml.safe_load(open(self.configPath, "r+"))
-        if len(self.config) != 3:
-            os.system("rm ~/.config/smother.yaml \n echo \'enabled: false \nport: 0\' > ~/.config/smother.yaml")
+        if len(self.config) != 4:
+            os.system("rm ~/.config/smother.yaml \n echo \'enabled: false \nreconnecting: false \nport: 0 \nbackup:\' > ~/.config/smother.yaml")
             self.config = yaml.safe_load(open(self.configPath, "r+"))
         # create stack switcher
         stack = Gtk.Stack()
@@ -96,12 +97,17 @@ class Smother(Gtk.Window):
         Thread(target = self.disable, args = ()).start()
 
     def enable(self):
+        # back up current rules
+        self.backup_ufw()
         self.killbutton.set_sensitive(False)
+        # check if a VPN reconnecting port has been specified
         if self.config["reconnecting"]:
-            commandstatus = os.system("pkexec bash -c \'ufw default deny incoming \n ufw default deny outgoing \n ufw allow out on tun0 from any to any \n ufw allow out " + str(int(self.config["port"])) + "/udp \n ufw allow in " + str(int(self.config["port"])) + "/udp \n ufw allow out 53 \n ufw allow in 53\' &> /dev/null")
+            # Force all ports to pass through tun0 except VPN reconnecting ports
+            commandstatus = os.system("pkexec bash -c \'ufw --force reset; rm /etc/ufw/*.rules.*; ufw enable; ufw default deny incoming; ufw default deny outgoing; ufw allow out on tun0 from any to any; ufw allow out " + str(int(self.config["port"])) + "/udp; ufw allow in " + str(int(self.config["port"])) + "/udp; ufw allow out 53; ufw allow in 53\' &> /dev/null")
             self.config["reconnecting"] = True
         else:
-            commandstatus = os.system("pkexec bash -c \'ufw default deny incoming \n ufw default deny outgoing \n ufw allow out on tun0 from any to any\' &> /dev/null")
+            # force all ports to pass through tun0
+            commandstatus = os.system("pkexec bash -c \'ufw --force reset; rm /etc/ufw/*.rules.*; ufw enable; ufw default deny incoming; ufw default deny outgoing; ufw allow out on tun0 from any to any\' &> /dev/null")
         if not commandstatus:
             self.unkillbutton.set_sensitive(True)
             self.config["enabled"] = True
@@ -120,7 +126,9 @@ class Smother(Gtk.Window):
 
     def disable(self):
         self.unkillbutton.set_sensitive(False)
-        commandstatus = os.system("pkexec bash -c \'ufw --force reset \n ufw enable \n rm /etc/ufw/*.rules.* \n ufw default deny incoming \n ufw default allow outgoing\' &> /dev/null")
+        self.recover_ufw()
+        # clear killswitch UFW rules and replace with backed up rules
+        commandstatus = os.system("pkexec bash -c \'ufw --force reset; rm /etc/ufw/*.rules.*; ufw enable; echo \"" + self.ufwRecovery + "\" > /etc/ufw/user.rules; echo \"" + self.ufwRecovery6 + "\" > /etc/ufw/user6.rules; ufw default allow outgoing\' &> /dev/null")
         if not commandstatus:
             self.killbutton.set_sensitive(True)
             self.unkillbutton.set_sensitive(False)
@@ -137,9 +145,21 @@ class Smother(Gtk.Window):
             self.unkillbutton.set_sensitive(True)
             print("\33[33m" + "Request dismissed" + "\33[0m")
 
+    def backup_ufw(self):
+        # store current UFW rules as base64
+        ufwBackup = base64.b64encode(open("/etc/ufw/user.rules", "r").read().replace("\"", "\\\"").encode("utf-8"))
+        ufwBackup6 = base64.b64encode(open("/etc/ufw/user6.rules", "r").read().replace("\"", "\\\"").encode("utf-8"))
+        self.config["backup"] = [ufwBackup, ufwBackup6]
+
+    def recover_ufw(self):
+        # recover UFW rules
+        self.ufwRecovery = base64.b64decode(self.config["backup"][0]).decode("utf-8")
+        self.ufwRecovery6 = base64.b64decode(self.config["backup"][1]).decode("utf-8")
+
     def status_check(self):
         vpnstatus = True
         time.sleep(2)
+        # check if VPN is running
         while self.config["enabled"] and win.get_window():
             if not os.system("nmcli device status | grep \"tun0\" &> /dev/null"):
                 vpnstatus = True
@@ -154,3 +174,4 @@ win = Smother()
 win.connect("destroy", Gtk.main_quit)
 win.show_all()
 Gtk.main()
+
